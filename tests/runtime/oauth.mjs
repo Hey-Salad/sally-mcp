@@ -180,7 +180,7 @@ try {
     assert.ok(
       (
         await page
-          .getByRole("heading", { name: "Sally", exact: true })
+          .getByRole("heading", { name: "Sally by HeySalad®", exact: true })
           .evaluate((e) => getComputedStyle(e).fontFamily)
       ).includes("Grandstander"),
     );

@@ -4,6 +4,7 @@ import { authorize } from "./auth";
 import { upstream } from "./upstream";
 import { z } from "zod";
 import { handleMcp } from "./server";
+import { HEYSALAD_MARK_SVG } from "./brand";
 const origins = new Set([
   "https://chatgpt.com",
   "https://chat.openai.com",
@@ -63,7 +64,15 @@ export default {
       });
     let response: Response;
     try {
-      if (url.pathname === "/health")
+      if (url.pathname === "/brand/heysalad.svg")
+        response = new Response(HEYSALAD_MARK_SVG, {
+          headers: {
+            "Content-Type": "image/svg+xml; charset=utf-8",
+            "Cache-Control": "public, max-age=3600",
+            "X-Content-Type-Options": "nosniff",
+          },
+        });
+      else if (url.pathname === "/health")
         response = Response.json({
           service: "Sally MCP",
           owner: "HeySalad Inc.",

@@ -41,7 +41,7 @@ A Workers-specific failure found during live matching was fixed: Workers rejects
 
 The upstream Sally API has existing TypeScript diagnostics and dependency audit findings; its separate shadow PR documents baseline comparison and is not claimed fully green merely because its tests and bundle pass. No production merge/deployment or OpenAI directory submission occurred.
 
-Current staging deployment version: `791057f4-368a-4871-bce3-318623dc0ccf`. Hosted acceptance/veto run IDs: `5c0d320e-04df-4b11-aba7-dba164f88dfb`, `5d3f3d06-429f-48fe-99ed-12587daa1d2d`.
+Current staging deployment version: `eb1544b5-b654-4847-a003-737d785ac220`. Hosted acceptance/veto run IDs: `5c0d320e-04df-4b11-aba7-dba164f88dfb`, `5d3f3d06-429f-48fe-99ed-12587daa1d2d`.
 
 Backend privacy source cleanup is prepared in [draft PR #31](https://github.com/Hey-Salad/heysalad-payme/pull/31): 66 backend tests pass and the dev bundle passes. It remains unmerged/undeployed, with the same 126 baseline TypeScript diagnostics; historical-log and account/OTP-retention review is still required.
 
@@ -52,3 +52,5 @@ PR #27 (1.0.30an fixes) was verified already merged into main, with all three Sa
 Private Nano inference: pinned model digest `c61eab67d1c8710f8ed01ab49d3ecb59d993ec68ed51cf42e797be3f326bc573`; original Python features vendored unchanged from `783d766`. Tokenizer and ID map stay private. CPU HTTP service prepared with authenticated request limits. Docker packaging is prepared but untested because Docker is unavailable on this host. Nano has not run in the hosted MCP/backend path, and benchmark gold metrics were not reproduced.
 
 Retailer image fix: added exact verified Tesco, Waitrose and Asda image origins to the widget and MCP Apps CSP; storefront links remain separate. Five UI tests now cover image loading, lookalike-host rejection and broken-image placeholders. Source provenance is in [product-images](../docs/product-images.md).
+
+Branding update: the actual ChatGPT private app name and description were saved and verified as Sally by HeySalad® / HeySalad Inc. on 15 October. Refreshed tools after deploying the branded MCP metadata and welcome instructions. The widget, consent page and plugin package now use the actual HeySalad mark (SVG and square PNG). The existing private app still displays its generic icon and creator Peter Machona: its settings expose no icon/developer edit. Package author/developerName are HeySalad Inc.; public directory attribution requires selecting the verified company developer identity. Category and website metadata are prepared in the package, not verified on that existing private listing.

@@ -1,4 +1,4 @@
-# Sally — love your food
+# Sally by HeySalad® — love your food
 
 HeySalad Inc.’s AI grocery assistant for ChatGPT and Codex. AGPL-3.0-only.
 

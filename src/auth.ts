@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { Env } from "./types";
 import { upstream } from "./tools";
 import { limit, pseudonym } from "./privacy";
+import { DISPLAY_NAME, HEYSALAD_MARK_SVG } from "./brand";
 const esc = (s: string) =>
   s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const html = (body: string, headers = new Headers(), status = 200) => {
@@ -15,7 +16,7 @@ const html = (body: string, headers = new Headers(), status = 200) => {
     "default-src 'none'; style-src 'unsafe-inline'; font-src data:; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
   );
   return new Response(
-    `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Connect Sally</title><style>${fontFaces}body{font:18px Figtree,system-ui,sans-serif;background:#fff8f6;color:#1f1416;max-width:540px;margin:8vh auto;padding:24px}h1{font-family:Grandstander,cursive;color:#ed4c4c}button[value=deny]{background:#faa09a}a{color:#a32128}input,button{font:inherit;padding:12px;margin:8px 0;display:block}button{background:#ed4c4c;color:#1f1416;border:0;border-radius:12px}small{display:block}</style><h1>Sally</h1><p>love your food</p>${body}<p>HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></p></html>`,
+    `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Connect ${DISPLAY_NAME}</title><style>${fontFaces}body{font:18px Figtree,system-ui,sans-serif;background:#fff8f6;color:#1f1416;max-width:540px;margin:8vh auto;padding:24px}h1{font-family:Grandstander,cursive;color:#ed4c4c}.brand-mark{width:60px;height:auto}button[value=deny]{background:#faa09a}a{color:#a32128}input,button{font:inherit;padding:12px;margin:8px 0;display:block}button{background:#ed4c4c;color:#1f1416;border:0;border-radius:12px}small{display:block}</style><div class="brand-mark" role="img" aria-label="HeySalad icon">${HEYSALAD_MARK_SVG.replace('width="50mm" height="41mm"', 'width="60" height="49"')}</div><h1>${DISPLAY_NAME}</h1><p>love your food</p>${body}<p>HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></p></html>`,
     { status, headers },
   );
 };
