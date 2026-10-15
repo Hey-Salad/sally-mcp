@@ -61,7 +61,7 @@
       "workers_dev": true,
       "preview_urls": false,
       "vars": {
-        "PUBLIC_ORIGIN": "https://sally-3p0kan3w9-hey-salad-inc.vercel.app",
+        "PUBLIC_ORIGIN": "https://mcp.heysalad.ai",
         "SALLY_API_URL": "https://sally-api-dev.heysalad-o.workers.dev",
         "PROXY_ONLY": "true",
       },

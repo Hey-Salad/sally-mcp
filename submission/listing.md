@@ -11,7 +11,7 @@ Status: staging review pack. **Do not submit yet. Peter submits.**
 - Privacy policy: https://heysalad.ai/sally/privacy — must be approved, published and verified before submission.
 - Support: peter@heysalad.ai
 - Source: https://github.com/Hey-Salad/sally-mcp
-- MCP URL for current staging validation: https://sally-mcp-staging.heysalad-o.workers.dev/mcp
+- Public beta MCP URL: https://mcp.heysalad.ai/mcp (dev API; email sign-in restricted to Peter; not directory-submitted)
 - Transport: Streamable HTTP
 - Authentication: mixed (anonymous matching plus OAuth 2.1 for account tools).
 - OAuth scope: `sally:tools`; optional `offline_access`.

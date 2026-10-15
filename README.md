@@ -2,9 +2,11 @@
 
 HeySalad Inc.’s AI grocery assistant for ChatGPT and Codex. AGPL-3.0-only.
 
-**Staging:** https://sally-mcp-staging.heysalad-o.workers.dev/mcp
+**Public beta endpoint:** https://mcp.heysalad.ai/mcp
 
-**Health:** https://sally-mcp-staging.heysalad-o.workers.dev/health
+**Existing ChatGPT staging:** https://sally-mcp-staging.heysalad-o.workers.dev/mcp
+
+**Health:** https://mcp.heysalad.ai/health
 
 Sally checks grocery candidates, explains choices, converts recipes to shopping lists and prepares a Sally Chrome extension handoff. **You always check out and pay.**
 
@@ -12,9 +14,9 @@ This staging build uses `sally-api-dev`, not a production rollout. Candidates co
 
 ```mermaid
 flowchart LR
-  C[ChatGPT + product cards] -->|Streamable HTTP MCP| W[Cloudflare Worker]
-  V[Optional branded Vercel front door] -. authenticated streaming proxy .-> W
-  X[Codex plugin + skill] -->|Streamable HTTP MCP| W
+  C[ChatGPT + product cards] -->|Streamable HTTP MCP| V[Vercel: mcp.heysalad.ai]
+  V -->|Authenticated streaming proxy| W[Cloudflare Worker]
+  X[Codex plugin + skill] -->|Streamable HTTP MCP| V
   W --> O[OAuth 2.1 + PKCE / consent]
   O --> K[Isolated OAuth KV]
   W --> D[D1 atomic quotas + pseudonymous usage]
@@ -27,7 +29,7 @@ flowchart LR
   E --> U[User reviews basket and checks out]
 ```
 
-The optional [Vercel front door](vercel-proxy/README.md) is being staged for `mcp.heysalad.ai`; the canonical hostname is not assigned yet. See [domain migration](docs/custom-domain.md) before publishing it.
+The [Vercel front door](vercel-proxy/README.md) is deployed at `mcp.heysalad.ai`, backed by its own isolated Worker, D1 and OAuth KV. Existing ChatGPT staging remains available with its original issuer; accounts must reconnect when changing issuers. See [domain migration](docs/custom-domain.md).
 
 ## Install in Codex
 
@@ -35,11 +37,11 @@ Copy this into `~/.codex/config.toml` (or a project’s `.codex/config.toml`):
 
 ```toml
 [mcp_servers.sally]
-url = "https://sally-mcp-staging.heysalad-o.workers.dev/mcp"
+url = "https://mcp.heysalad.ai/mcp"
 tool_timeout_sec = 120
 ```
 
-Anonymous `match_products` works without sign-in. Run `codex mcp login sally` to connect your Sally account for the other tools. Enter the email code yourself in the Sally sign-in page. Never put a token into the config or commit one.
+Anonymous `match_products` works without sign-in. This beta currently permits email sign-in only for `peter@heysalad.ai`; general reviewer access is a remaining launch gate. Run `codex mcp login sally` to connect your Sally account for the other tools. Enter the email code yourself in the Sally sign-in page. Never put a token into the config or commit one.
 
 For plugin packaging, `plugin/` contains the portable `plugin.json`, `mcp.json`, a skill and branding, plus the supported `.codex-plugin/plugin.json` / `.mcp.json` compatibility layout. Add the folder through your local plugin source during development; the public directory package is prepared, **not submitted**. See [official packaging documentation](https://developers.openai.com/plugins/build/plugins).
 
