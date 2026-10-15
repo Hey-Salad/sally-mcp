@@ -1,0 +1,16 @@
+{
+  "name": "sally",
+  "version": "0.1.0",
+  "description": "Sally by HeySalad — love your food. Grocery matches, recipes and extension handoff; you check out and pay.",
+  "author": { "name": "HeySalad Inc.", "email": "peter@heysalad.ai" },
+  "homepage": "https://heysalad.ai/sally",
+  "repository": "https://github.com/Hey-Salad/sally-mcp",
+  "license": "AGPL-3.0-only",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Sally",
+    "shortDescription": "love your food",
+    "logo": "./assets/sally.svg"
+  }
+}

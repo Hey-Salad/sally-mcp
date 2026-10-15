@@ -1,0 +1,711 @@
+[
+  {
+    "line": "milk 1l",
+    "product": "Whole milk 250ml",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["size/pack: offered 0.25x of requested"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "milk",
+      "product_type": "milk",
+      "ratio": 0.25,
+      "line_qty": {
+        "per": 1000.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 250.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 250.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "milk 2 pints",
+    "product": "Whole milk 2 pints",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "milk",
+      "product_type": "milk",
+      "ratio": 1.0,
+      "line_qty": {
+        "per": 1136.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1136.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 1136.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1136.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "apples",
+    "product": "Apple juice",
+    "expected": {
+      "verdict": "unknown",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": null,
+      "product_type": "juice",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": null
+    }
+  },
+  {
+    "line": "bananas",
+    "product": "Banana bread",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["type mismatch: bananas vs bread"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "bananas",
+      "product_type": "bread",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": null
+    }
+  },
+  {
+    "line": "2 tins coconut milk",
+    "product": "Coconut milk 400ml",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "coconut milk tin",
+      "product_type": "coconut milk tin",
+      "ratio": 0.5,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 2,
+        "total": 2.0
+      },
+      "product_qty": {
+        "per": 400.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 400.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "coconut milk",
+    "product": "Chilled coconut milk drink 1l",
+    "expected": {
+      "verdict": "reject",
+      "reasons": [
+        "type mismatch: coconut milk tin vs coconut drink",
+        "form mismatch: drink"
+      ],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "coconut milk tin",
+      "product_type": "coconut drink",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": {
+        "per": 1000.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "olive oil 1l",
+    "product": "Olive spread 500g",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["type mismatch: olive oil vs olive spread"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "olive oil",
+      "product_type": "olive spread",
+      "ratio": null,
+      "line_qty": {
+        "per": 1000.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 500.0,
+        "unit": "g",
+        "count": 1,
+        "total": 500.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "toilet roll 12 pack",
+    "product": "Kitchen roll 2 pack",
+    "expected": {
+      "verdict": "reject",
+      "reasons": [
+        "type mismatch: toilet roll vs kitchen roll",
+        "size/pack: offered 0.17x of requested"
+      ],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "toilet roll",
+      "product_type": "kitchen roll",
+      "ratio": 0.16666666666666666,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 12,
+        "total": 12.0
+      },
+      "product_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 2,
+        "total": 2.0
+      }
+    }
+  },
+  {
+    "line": "80 tea bags",
+    "product": "Loose leaf tea 100g",
+    "expected": {
+      "verdict": "reject",
+      "reasons": [
+        "type mismatch: tea bags vs loose tea",
+        "size/pack: offered 0.01x of requested"
+      ],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "tea bags",
+      "product_type": "loose tea",
+      "ratio": 0.0125,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 80,
+        "total": 80.0
+      },
+      "product_qty": {
+        "per": 100.0,
+        "unit": "g",
+        "count": 1,
+        "total": 100.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "rice 1kg",
+    "product": "Rice 500g",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "rice",
+      "product_type": "rice",
+      "ratio": 0.5,
+      "line_qty": {
+        "per": 1000.0,
+        "unit": "g",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 500.0,
+        "unit": "g",
+        "count": 1,
+        "total": 500.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "rice 1kg",
+    "product": "Rice 2kg",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "rice",
+      "product_type": "rice",
+      "ratio": 2.0,
+      "line_qty": {
+        "per": 1000.0,
+        "unit": "g",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 2000.0,
+        "unit": "g",
+        "count": 1,
+        "total": 2000.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "rice 1kg",
+    "product": "Rice 3kg",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["size/pack: offered 3.00x of requested"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "rice",
+      "product_type": "rice",
+      "ratio": 3.0,
+      "line_qty": {
+        "per": 1000.0,
+        "unit": "g",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 3000.0,
+        "unit": "g",
+        "count": 1,
+        "total": 3000.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "organic milk",
+    "product": "Organic milk 1l",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "milk",
+      "product_type": "milk",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": {
+        "per": 1000.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "milk",
+    "product": "Tesco Finest Organic Whole Milk 1l",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": true,
+        "own_label": true,
+        "premium": true,
+        "value_range": false
+      },
+      "line_type": "milk",
+      "product_type": "milk",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": {
+        "per": 1000.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 1000.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "eggs",
+    "product": "6 eggs",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "eggs",
+      "product_type": "eggs",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 6,
+        "total": 6.0
+      }
+    }
+  },
+  {
+    "line": "2 eggs",
+    "product": "12 eggs",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["size/pack: offered 6.00x of requested"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "eggs",
+      "product_type": "eggs",
+      "ratio": 6.0,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 2,
+        "total": 2.0
+      },
+      "product_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 12,
+        "total": 12.0
+      }
+    }
+  },
+  {
+    "line": "pasta 500g",
+    "product": "Pasta 2 x 250g",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "pasta",
+      "product_type": "pasta",
+      "ratio": 1.0,
+      "line_qty": {
+        "per": 500.0,
+        "unit": "g",
+        "count": 1,
+        "total": 500.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 250.0,
+        "unit": "g",
+        "count": 2,
+        "total": 500.0
+      }
+    }
+  },
+  {
+    "line": "chicken 500g",
+    "product": "Frozen Chicken 500g",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["form mismatch: frozen"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "chicken",
+      "product_type": "chicken",
+      "ratio": 1.0,
+      "line_qty": {
+        "per": 500.0,
+        "unit": "g",
+        "count": 1,
+        "total": 500.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 500.0,
+        "unit": "g",
+        "count": 1,
+        "total": 500.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "one tin tomatoes",
+    "product": "Chopped tomatoes 400g",
+    "expected": {
+      "verdict": "unknown",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": null,
+      "product_type": null,
+      "ratio": 1.0,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 1,
+        "total": 1.0
+      },
+      "product_qty": {
+        "per": 400.0,
+        "unit": "g",
+        "count": 1,
+        "total": 400.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "2 bottles milk",
+    "product": "Milk 6 x 1l",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["size/pack: offered 3.00x of requested"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "milk",
+      "product_type": "milk",
+      "ratio": 3.0,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 2,
+        "total": 2.0
+      },
+      "product_qty": {
+        "per": 1000.0,
+        "unit": "ml",
+        "count": 6,
+        "total": 6000.0
+      }
+    }
+  },
+  {
+    "line": "milk 1 pint",
+    "product": "Milk 568ml",
+    "expected": {
+      "verdict": "ok",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "milk",
+      "product_type": "milk",
+      "ratio": 1.0,
+      "line_qty": {
+        "per": 568.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 568.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 568.0,
+        "unit": "ml",
+        "count": 1,
+        "total": 568.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "2 rolls",
+    "product": "Toilet rolls 4 pack",
+    "expected": {
+      "verdict": "unknown",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": null,
+      "product_type": "toilet roll",
+      "ratio": 2.0,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 2,
+        "total": 2.0
+      },
+      "product_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 4,
+        "total": 4.0
+      }
+    }
+  },
+  {
+    "line": "washing up liquid",
+    "product": "Washing up power spray",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["type mismatch: washing up liquid vs cooking spray"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "washing up liquid",
+      "product_type": "cooking spray",
+      "ratio": null,
+      "line_qty": null,
+      "product_qty": null
+    }
+  },
+  {
+    "line": "200g cheddar",
+    "product": "Grated cheddar 200g",
+    "expected": {
+      "verdict": "reject",
+      "reasons": ["form mismatch: grated"],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": "cheddar",
+      "product_type": "cheddar",
+      "ratio": 1.0,
+      "line_qty": {
+        "per": 200.0,
+        "unit": "g",
+        "count": 1,
+        "total": 200.0,
+        "explicit_count": false
+      },
+      "product_qty": {
+        "per": 200.0,
+        "unit": "g",
+        "count": 1,
+        "total": 200.0,
+        "explicit_count": false
+      }
+    }
+  },
+  {
+    "line": "3 apples",
+    "product": "6 apples",
+    "expected": {
+      "verdict": "unknown",
+      "reasons": [],
+      "flags": {
+        "organic": false,
+        "own_label": false,
+        "premium": false,
+        "value_range": false
+      },
+      "line_type": null,
+      "product_type": null,
+      "ratio": 2.0,
+      "line_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 3,
+        "total": 3.0
+      },
+      "product_qty": {
+        "per": null,
+        "unit": "item",
+        "count": 6,
+        "total": 6.0
+      }
+    }
+  }
+]

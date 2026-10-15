@@ -1,0 +1,42 @@
+{
+  "name": "@heysalad/sally-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "dev": "wrangler dev",
+    "typecheck": "tsc --noEmit",
+    "build": "wrangler deploy --env staging --dry-run --outdir dist",
+    "test": "vitest run",
+    "smoke": "tsx scripts/smoke.ts",
+    "inspector": "mcp-inspector --cli",
+    "deploy:staging": "wrangler deploy --env staging",
+    "test:ui": "playwright test",
+    "format:check": "prettier --check src tests scripts plugin .github README.md docs submission/*.md package.json tsconfig.json wrangler.jsonc playwright.config.ts vitest.config.ts",
+    "secrets:check": "python3 scripts/secret-scan.py",
+    "check": "npm run typecheck && npm test && npm run build && npm run secrets:check",
+    "test:plugin": "node scripts/validate-plugin.mjs"
+  },
+  "dependencies": {
+    "@cloudflare/workers-oauth-provider": "1.2.3",
+    "@modelcontextprotocol/ext-apps": "1.7.5",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261014.1",
+    "@fontsource/figtree": "5.3.0",
+    "@fontsource/grandstander": "5.3.0",
+    "@modelcontextprotocol/inspector": "2.11.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.5",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vitest": "5.0.4",
+    "wrangler": "4.151.0"
+  }
+}

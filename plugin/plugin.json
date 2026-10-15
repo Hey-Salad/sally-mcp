@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sally",
+  "version": "0.1.0",
+  "description": "Sally by HeySalad: match supplied grocery candidates, explain choices, turn recipes into lists, and hand off to the Sally extension. You check out and pay.",
+  "author": {
+    "name": "HeySalad Inc.",
+    "email": "peter@heysalad.ai",
+    "url": "https://heysalad.ai"
+  },
+  "homepage": "https://heysalad.ai/sally",
+  "repository": "https://github.com/Hey-Salad/sally-mcp",
+  "license": "AGPL-3.0-only",
+  "keywords": ["groceries", "recipes", "shopping", "Sally"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Sally",
+        "shortDescription": "love your food",
+        "logo": "./assets/sally.svg"
+      }
+    }
+  }
+}

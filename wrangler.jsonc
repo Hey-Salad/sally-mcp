@@ -1,0 +1,60 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sally-mcp-local",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "rules": [
+    {
+      "type": "Text",
+      "globs": ["**/*.html"],
+      "fallthrough": true,
+    },
+  ],
+  "vars": {
+    "PUBLIC_ORIGIN": "http://localhost:8787",
+    "SALLY_API_URL": "https://sally-api-dev.heysalad-o.workers.dev",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sally-mcp-staging",
+      "database_id": "c036dcb1-dd53-40a8-a4f2-0fd7d9a4fdfb",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "bb83459e62ae4d08b6c56ff291e54e5f",
+    },
+  ],
+  "env": {
+    "staging": {
+      "name": "sally-mcp-staging",
+      "workers_dev": true,
+      "vars": {
+        "PUBLIC_ORIGIN": "https://sally-mcp-staging.heysalad-o.workers.dev",
+        "SALLY_API_URL": "https://sally-api-dev.heysalad-o.workers.dev",
+      },
+      "triggers": {
+        "crons": ["17 3 * * *"],
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "sally-mcp-staging",
+          "database_id": "c036dcb1-dd53-40a8-a4f2-0fd7d9a4fdfb",
+          "migrations_dir": "migrations",
+        },
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "OAUTH_KV",
+          "id": "bb83459e62ae4d08b6c56ff291e54e5f",
+        },
+      ],
+      "preview_urls": false,
+    },
+  },
+}
