@@ -22,7 +22,7 @@ const html = (
     `default-src 'none'; style-src 'unsafe-inline'; font-src data:; form-action 'self'${redirectUri ? " " + new URL(redirectUri).origin : ""}; frame-ancestors 'none'; base-uri 'none'`,
   );
   return new Response(
-    `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Connect ${DISPLAY_NAME}</title><style>${fontFaces}${authStyles}</style></head><body><main class="auth-card"><header class="auth-header"><div class="brand-mark" role="img" aria-label="HeySalad logo">${HEYSALAD_WORDMARK_SVG}</div><h1>${DISPLAY_NAME}</h1><p class="tagline">love your food</p></header><div class="auth-content">${body}</div><footer class="company-footer">HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></footer></main></body></html>`,
+    `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Connect ${DISPLAY_NAME}</title><style>${fontFaces}${authStyles}</style></head><body><main class="auth-card" aria-label="Connect Sally"><header class="auth-header"><div class="brand-mark" role="img" aria-label="HeySalad logo">${HEYSALAD_WORDMARK_SVG}</div><p class="tagline">love your food</p></header><div class="auth-content">${body}</div><footer class="company-footer">HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></footer></main></body></html>`,
     { status, headers },
   );
 };

@@ -205,12 +205,22 @@ try {
         .count(),
       1,
     );
-    assert.ok(
-      (
-        await page
-          .getByRole("heading", { name: "Sally by HeySalad®", exact: true })
-          .evaluate((e) => getComputedStyle(e).fontFamily)
-      ).includes("Grandstander"),
+    assert.equal(
+      await page
+        .getByRole("heading", { name: "Sally by HeySalad®", exact: true })
+        .count(),
+      0,
+      "The duplicate heading was removed at Peter’s request",
+    );
+    assert.equal(
+      await page
+        .getByRole("img", { name: "HeySalad logo", exact: true })
+        .count(),
+      1,
+    );
+    assert.equal(
+      await page.getByText("love your food", { exact: true }).count(),
+      1,
     );
     const loadedFonts = await page.evaluate(async () => {
       await document.fonts.ready;
@@ -219,8 +229,8 @@ try {
         .map((f) => f.family);
     });
     assert.ok(
-      loadedFonts.includes("Figtree") && loadedFonts.includes("Grandstander"),
-      "Both bundled brand fonts must load",
+      loadedFonts.includes("Figtree"),
+      "The form’s bundled Figtree font must load",
     );
     await page.screenshot({
       path: "submission/screenshots/consent-runtime.png",
