@@ -13,6 +13,7 @@ This staging build uses `sally-api-dev`, not a production rollout. Candidates co
 ```mermaid
 flowchart LR
   C[ChatGPT + product cards] -->|Streamable HTTP MCP| W[Cloudflare Worker]
+  V[Optional branded Vercel front door] -. authenticated streaming proxy .-> W
   X[Codex plugin + skill] -->|Streamable HTTP MCP| W
   W --> O[OAuth 2.1 + PKCE / consent]
   O --> K[Isolated OAuth KV]
@@ -25,6 +26,8 @@ flowchart LR
   H --> E[Sally Chrome extension]
   E --> U[User reviews basket and checks out]
 ```
+
+The optional [Vercel front door](vercel-proxy/README.md) is being staged for `mcp.heysalad.ai`; the canonical hostname is not assigned yet. See [domain migration](docs/custom-domain.md) before publishing it.
 
 ## Install in Codex
 

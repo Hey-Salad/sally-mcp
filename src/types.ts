@@ -4,6 +4,8 @@ export interface Env {
   OAUTH_KV: KVNamespace;
   OAUTH_PROVIDER: OAuthHelpers;
   PUBLIC_ORIGIN: string;
+  PROXY_ONLY?: string;
+  PROXY_SHARED_SECRET?: string;
   SALLY_API_URL: string;
   NANO_SHADOW_URL?: string;
   NANO_SHADOW_SHA256?: string;

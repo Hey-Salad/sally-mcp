@@ -5,6 +5,9 @@ import { chromium } from "@playwright/test";
 import { readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { Miniflare, convertV4MiniflareOptions } from "miniflare";
+import { proxyRequest } from "../../vercel-proxy/lib/proxy.mjs";
+const proxyMode = process.env.SALLY_TEST_PROXY === "1";
+const proxyKey = "synthetic-proxy-runtime-key-".repeat(3);
 const origin = "https://sally-runtime.example";
 const upstreamOrigin = "https://sally-upstream.invalid";
 const account = {
@@ -29,6 +32,9 @@ const mf = new Miniflare(
     compatibilityFlags: ["nodejs_compat", "global_fetch_strictly_public"],
     bindings: {
       PUBLIC_ORIGIN: origin,
+      ...(proxyMode
+        ? { PROXY_ONLY: "true", PROXY_SHARED_SECRET: proxyKey }
+        : {}),
       SALLY_API_URL: upstreamOrigin,
       USAGE_HMAC_KEY: "test-only-key-".repeat(5),
     },
@@ -95,6 +101,23 @@ try {
     .split(";")
     .filter((s) => s.trim()))
     await db.prepare(statement).run();
+  async function dispatch(path, init = {}) {
+    if (!proxyMode) return mf.dispatchFetch(new URL(path, origin), init);
+    return proxyRequest(
+      new Request(new URL(path, origin), init),
+      { workerOrigin: "https://worker-origin.invalid", proxyKey },
+      (url, options) => mf.dispatchFetch(url, options),
+      "198.51.100.42",
+    );
+  }
+  if (proxyMode) {
+    const bypass = await mf.dispatchFetch("https://worker-origin.invalid/mcp");
+    assert.equal(
+      bypass.status,
+      404,
+      "Private Worker must reject bypassing Vercel",
+    );
+  }
   const cookies = new Map();
   async function request(path, init = {}) {
     const headers = new Headers(init.headers);
@@ -103,7 +126,7 @@ try {
         "Cookie",
         [...cookies].map(([k, v]) => `${k}=${v}`).join("; "),
       );
-    const res = await mf.dispatchFetch(new URL(path, origin), {
+    const res = await dispatch(new URL(path, origin), {
       ...init,
       headers,
       redirect: "manual",
@@ -445,7 +468,7 @@ try {
     const context = await authBrowser.newContext();
     await context.route(origin + "/**", async (route) => {
       const incoming = route.request();
-      const result = await mf.dispatchFetch(incoming.url(), {
+      const result = await dispatch(incoming.url(), {
         method: incoming.method(),
         headers: await incoming.allHeaders(),
         body: incoming.postDataBuffer() || undefined,
@@ -516,6 +539,9 @@ try {
   } finally {
     await authBrowser.close();
   }
+  console.log(
+    proxyMode ? "Via the actual Vercel proxy module:" : "Direct Worker:",
+  );
   console.log(
     "PASS: isolated workerd OAuth code + PKCE, protected tools, refresh rotation, revocation, pseudonymous D1 usage, retention during upstream outage, and two overlapping browser sign-ins with callback navigation + PKCE redemption.",
   );

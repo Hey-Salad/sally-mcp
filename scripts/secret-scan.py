@@ -11,7 +11,7 @@ try:
 except subprocess.CalledProcessError:pass
 
 for path in root.rglob('*'):
- if not path.is_file() or any(p in ('node_modules','.git','.wrangler','dist','test-results','playwright-report','.venv-nano','__pycache__') for p in path.relative_to(root).parts) or path.name.startswith(('.env','.dev.vars')) or path.suffix in ('.png','.jpg','.zip','.woff2'):continue
+ if not path.is_file() or any(p in ('node_modules','.next','.vercel','.git','.wrangler','dist','test-results','playwright-report','.venv-nano','__pycache__') for p in path.relative_to(root).parts) or path.name.startswith(('.env','.dev.vars')) or path.suffix in ('.png','.jpg','.zip','.woff2'):continue
  try:text=path.read_text()
  except UnicodeError:continue
  if any(re.search(pattern,text) for pattern in patterns):found.append(str(path.relative_to(root)))

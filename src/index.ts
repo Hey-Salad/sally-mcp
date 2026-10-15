@@ -1,6 +1,7 @@
 import { OAuthProvider } from "@cloudflare/workers-oauth-provider";
 import type { Env, Identity } from "./types";
 import { authorize } from "./auth";
+import { canonicalProxyRequest } from "./proxy";
 import { upstream } from "./upstream";
 import { z } from "zod";
 import { handleMcp } from "./server";
@@ -46,6 +47,9 @@ function provider(env: Env) {
 }
 export default {
   async fetch(req: Request, env: Env, ctx: ExecutionContext) {
+    const canonical = canonicalProxyRequest(req, env);
+    if (canonical instanceof Response) return canonical;
+    req = canonical;
     const url = new URL(req.url);
     const origin = req.headers.get("Origin");
     if (origin && !origins.has(origin) && origin !== env.PUBLIC_ORIGIN)
