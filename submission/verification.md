@@ -88,3 +88,5 @@ Current account checks: authenticated basket handoff now preserves free-text qua
 ChatGPT cached the old widget artwork even after refreshing tools. Bumped the resource URI to `ui://sally/products-v2.html` and server metadata version to 0.1.2 so new tool definitions can retrieve the updated full-wordmark resource. Final host verification follows after that deployment.
 
 Latest staged MCP deployment: `720df9ea-86cd-405a-bfbc-27d3738f15e2` (versioned widget URI and 0.1.2 server metadata). Required checks pass: 62 unit tests, five UI tests, isolated real-browser overlapping OAuth transactions, typecheck/build, format and secret scan.
+
+Final host branding proof: after the widget URI change and completed tool refresh, actual ChatGPT UI renders `HeySalad logo` (full wordmark), Sally by HeySalad®, tagline and amber note. Opened the app in ChatGPT’s own tab view and visually inspected it. Evidence: `screenshots/chatgpt-wordmark-live.png` (synthetic no-candidate test). Real-account OAuth and protected tools pass. Code CI at c3d36ba is green (verify and nano-service); public directory submission has not occurred.
