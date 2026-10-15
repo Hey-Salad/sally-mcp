@@ -4,6 +4,8 @@ HeySalad Inc.’s AI grocery assistant for ChatGPT and Codex. AGPL-3.0-only.
 
 **Public beta endpoint:** https://mcp.heysalad.ai/mcp
 
+**Verified ChatGPT developer app:** [Sally by HeySalad® — public beta](https://chatgpt.com/plugins/plugin_asdk_app_6ad04e7ade948191b45443bdb9f8ea74) (public MCP origin; private development connection)
+
 **Existing ChatGPT staging:** https://sally-mcp-staging.heysalad-o.workers.dev/mcp
 
 **Health:** https://mcp.heysalad.ai/health
