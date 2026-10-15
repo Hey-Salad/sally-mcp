@@ -27,6 +27,21 @@ export async function upstream(
     redirect: "manual",
     signal: AbortSignal.timeout(25000),
   });
+  if (response.status === 402)
+    throw new ToolError(
+      "SALLY_ALLOWANCE_EXHAUSTED",
+      "Your monthly Sally AI allowance is exhausted. Review your Sally membership before trying more AI requests.",
+    );
+  if (response.status === 429)
+    throw new ToolError(
+      "RATE_LIMITED",
+      "Sally is receiving too many requests. Please try again later.",
+    );
+  if (response.status === 403)
+    throw new ToolError(
+      "SALLY_ACCESS_DENIED",
+      "This Sally account does not have access to this operation.",
+    );
   if (!response.ok)
     throw new ToolError(
       response.status === 401

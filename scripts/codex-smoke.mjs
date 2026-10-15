@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
 const config = {
   mcp_servers: {
     sally: {
@@ -23,6 +24,8 @@ const args = [
   "mcp_servers.sally.tool_timeout_sec=120",
   "-c",
   "mcp_servers.sally.startup_timeout_sec=60",
+  "-c",
+  "mcp_servers.sally.required=true",
   'Call Sally match_products with list ["milk"], retailer "ocado", candidates []. This is an anonymous validation. Use only Sally tools. Report the actual tool result.',
 ];
 const child = spawn("codex", args, { stdio: ["ignore", "pipe", "pipe"] });
@@ -63,6 +66,12 @@ child.on("close", (code) => {
     )
   ) {
     console.error("Sally MCP call was not observed");
+    mkdirSync(".wrangler", { recursive: true });
+    writeFileSync(".wrangler/codex-smoke.stderr", stderr, { mode: 0o600 });
+    writeFileSync(".wrangler/codex-smoke.events", stdout, { mode: 0o600 });
+    console.error(
+      "Startup diagnostics saved privately in .wrangler/codex-smoke.stderr",
+    );
     process.exitCode = 1;
     return;
   }

@@ -33,3 +33,14 @@ Before a production rollout, review the owning Sally API’s existing OTP/debug 
 Prepared privacy cleanup: [draft PR #31](https://github.com/Hey-Salad/heysalad-payme/pull/31) removes OTP/recipient/provider-error payload logging and strips grocery text from sense-verdict persistence while preserving run attribution. Its 66 tests and dev bundle pass; it is not deployed and does not purge historical logs or resolve account/OTP retention.
 
 Prepared explicit-servings fix: [draft PR #32](https://github.com/Hey-Salad/heysalad-payme/pull/32) lets an explicit request override the saved household size and returns the applied count. Four regression scenarios and the full 64-test backend suite pass. It is not deployed; current live scaling remains unconfirmed.
+
+## Membership launch preparation
+
+Peter selected Free 10 / Pro 100 / Max unlimited monthly shopping requests,
+with Airwallex for paid plans. [Draft PR #38](https://github.com/Hey-Salad/heysalad-payme/pull/38)
+prepares authoritative D1 allowances and signed subscription handling, built on
+restricted dev email deployment PR #36. It includes pending PR #32 servings and
+PR #29 dev-only shadow hooks. It is not deployed. Current metering is per backend
+AI operation and must be reconciled with the submitted-list boundary before
+activation. Sally price/customer mappings and paid upgrade flow remain unverified.
+MCP preserves quota/access errors; rate limiting alone does not enforce billing.

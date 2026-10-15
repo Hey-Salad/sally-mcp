@@ -114,3 +114,43 @@ Peter approved publishing the revised sign-in styling. Canonical Worker c1ff24e5
 Public-origin ChatGPT account verification (15 October): Peter completed the real ChatGPT OAuth flow on mcp.heysalad.ai, whose client is https://chatgpt.com/oauth/client.json and validated return is chatgpt.com/connector_platform_oauth_redirect. New developer app asdk_app_6ad04e7ade948191b45443bdb9f8ea74 is named Sally by HeySalad® — public beta to avoid the existing staging app name collision. ChatGPT settings visibly confirm Peter’s linked primary account, Authorization used: OAuth and https://mcp.heysalad.ai/mcp. No password or verification code was read/entered by the agent. Screenshot: screenshots/public-chatgpt-oauth-connected.png. All four tools succeeded through the newly connected public-beta connector: recipe conversion returned the sample ingredients with serving count explicitly unconfirmed; explanation rejected synthetic banana bread for bananas using Luna Decisions and shadow rules, Nano unavailable; basket handoff preserved quantities with checkout/payment false; empty-candidate matching returned an amber note (run 9e50942e-7fb4-4c71-b38c-c92ef9551e91). Fixture product price is not a live catalogue quote.
 
 Actual ChatGPT conversation https://chatgpt.com/c/6ad050d2-58dc-83ed-892f-06e949c0cd20 called the new public app and rendered the official HeySalad wordmark, Sally title, Ocado and no-candidate amber card. Host CSP enforcement remains off; its control is an account-wide custom-app security setting and was inspected without changing it. Publisher byline still reads Peter Machona. Existing staging connection retained. Prepared ignored private workspace ZIP now references the public-origin app; public directory ZIP still uses the portable remote MCP URL, with no workspace app mapping. No directory submission occurred.
+
+## Launch billing preparation — 15 October 2026
+
+Peter confirmed Airwallex for paid plans and Free 10 / Pro 100 / Max unlimited
+monthly shopping requests. [Backend draft PR #38](https://github.com/Hey-Salad/heysalad-payme/pull/38)
+prepares authenticated, D1-atomic allowance enforcement and closes forged identity,
+unconfigured admin and legacy webhook access. Includes the pending explicit
+servings and dev rules/Nano shadow changes. 102 backend tests pass with actual
+D1 concurrency and signed HTTP webhook tests; dev bundle passes. Backend
+typecheck retains 118 existing diagnostics; it is not green. Not deployed.
+
+The current draft meters each backend AI operation. A multi-product list can
+consume multiple operations; Peter was asked to confirm whether one submitted
+list should be the unit instead. This decision and its tests block activation.
+No Sally Airwallex prices or trusted customer mapping are configured; paid
+upgrades remain blocked. Existing restaurant Host prices are not Sally prices.
+No charges, price changes, live billing migration or allowance activation occurred.
+
+MCP maps upstream 402 to SALLY_ALLOWANCE_EXHAUSTED, 403 to access denied and
+429 to rate limiting without exposing provider bodies (five regression cases).
+Local `npm run check`: 73 tests, types, bundle and credential scan pass.
+`npm run test:ui`: five browser tests pass. Hosted public smoke and Inspector
+pass against https://mcp.heysalad.ai/mcp; these exercise the existing deployment,
+not the unapproved billing backend. Codex 0.149.0 actual anonymous public MCP
+call passed with required startup and gpt-5.6-terra. Earlier intermittent
+runs ended without a tool call; diagnostics are now saved privately on that
+failure. Do not call the intermittent behaviour resolved.
+
+[Website draft PR #106](https://github.com/Hey-Salad/heysalad-ai/pull/106)
+extends public privacy for ChatGPT/Codex/Vercel and intended Airwallex processing,
+and hardens existing webhook policy. Node 24 production build, TypeScript,
+targeted ESLint and 12 tests pass. Local production HTTP 200 and screenshot
+checked. PR #105's existing historical-credential security gate remains; neither
+website PR was merged or deployed. Current public privacy URL still needs
+anonymous hosted verification after an approved release.
+
+Nano hosting remains unprovisioned. System Python has no Modal CLI; no new
+compute, paid service or inference endpoint was deployed. Account-wide ChatGPT
+CSP enforcement, verified HeySalad Inc. publisher identity, general signup/reviewer
+access and production Sally API release remain separate launch gates.
