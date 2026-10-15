@@ -104,19 +104,32 @@ export default {
     return new Response(response.body, { status: response.status, headers });
   },
   async scheduled(_event: ScheduledEvent, env: Env) {
-    const guest = z
-      .object({ data: z.object({ token: z.string().min(20) }) })
-      .parse(await upstream(env, "/api/auth/guest-session", {}));
-    await env.OAUTH_KV.put("guest:upstream", guest.data.token, {
-      expirationTtl: 47 * 3600,
-    });
-    await env.DB.batch([
-      env.DB.prepare("DELETE FROM usage_logs WHERE created_at < ?").bind(
-        Math.floor(Date.now() / 1000) - 30 * 86400,
-      ),
-      env.DB.prepare("DELETE FROM rate_limits WHERE expires_at < ?").bind(
-        Math.floor(Date.now() / 1000),
-      ),
+    const outcomes = await Promise.allSettled([
+      (async () => {
+        const guest = z
+          .object({ data: z.object({ token: z.string().min(20) }) })
+          .parse(await upstream(env, "/api/auth/guest-session", {}));
+        await env.OAUTH_KV.put("guest:upstream", guest.data.token, {
+          expirationTtl: 47 * 3600,
+        });
+      })(),
+      env.DB.batch([
+        env.DB.prepare("DELETE FROM usage_logs WHERE created_at < ?").bind(
+          Math.floor(Date.now() / 1000) - 30 * 86400,
+        ),
+        env.DB.prepare("DELETE FROM rate_limits WHERE expires_at < ?").bind(
+          Math.floor(Date.now() / 1000),
+        ),
+      ]),
     ]);
+    const failures = outcomes.filter(
+      (outcome): outcome is PromiseRejectedResult =>
+        outcome.status === "rejected",
+    );
+    if (failures.length)
+      throw new AggregateError(
+        failures.map((failure) => failure.reason),
+        "Sally scheduled maintenance failed",
+      );
   },
 };

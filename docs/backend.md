@@ -29,3 +29,5 @@ Pending: obtain the trained checkpoint and matching preprocessing metadata; impl
 ## Public-launch blockers
 
 Before a production rollout, review the owning Sally API’s existing OTP/debug logging and retention. The source inspected includes code/email debug logging in the OTP route and line/product observability in dev sense checks; the new MCP D1 does not retain those payloads. Reconcile those policies and code before publishing a privacy policy that describes the whole service.
+
+Prepared privacy cleanup: [draft PR #31](https://github.com/Hey-Salad/heysalad-payme/pull/31) removes OTP/recipient/provider-error payload logging and strips grocery text from sense-verdict persistence while preserving run attribution. Its 66 tests and dev bundle pass; it is not deployed and does not purge historical logs or resolve account/OTP retention.

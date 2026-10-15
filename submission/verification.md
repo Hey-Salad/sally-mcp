@@ -27,6 +27,10 @@ Date: 15 October 2026, Europe/London. This is a staging delivery with explicit r
 | Submission                                                                        | Listing, privacy draft, test-access instructions, plugin package and labeled UI screenshots                                                               | Prepared for review, not ready to submit until blockers clear                                                           |
 | Production rollout                                                                | `sally-api` and `shopping-agent` were not deployed                                                                                                        | Pending explicit approval/release work                                                                                  |
 
+Additional isolated-runtime evidence (same Worker bundle, real provider/D1/KV, every upstream request intercepted): `npm run test:runtime` proves OAuth code exchange + S256 PKCE, all three protected tool calls, refresh rotation, revocation, pseudonymous usage, browser consent denial without an email, and retention cleanup during an upstream guest-renewal outage. No real email, account or credential is used. This strengthens protocol verification; real-account delivery and actual ChatGPT-host rendering remain unverified.
+
+Two runtime defects were reproduced before fixing them: HTML required-email validation blocked Deny, and a failed renewal skipped expired-record deletion. Deny now bypasses email validation; cleanup and renewal settle independently, with maintenance failures still reported.
+
 Staging MCP: https://sally-mcp-staging.heysalad-o.workers.dev/mcp
 
 Health: https://sally-mcp-staging.heysalad-o.workers.dev/health
@@ -37,4 +41,6 @@ A Workers-specific failure found during live matching was fixed: Workers rejects
 
 The upstream Sally API has existing TypeScript diagnostics and dependency audit findings; its separate shadow PR documents baseline comparison and is not claimed fully green merely because its tests and bundle pass. No production merge/deployment or OpenAI directory submission occurred.
 
-Final staging deployment version: `2ddad2e3-ecd0-42d8-baa9-4593fd7f6ca3`. Hosted acceptance/veto run IDs: `5c0d320e-04df-4b11-aba7-dba164f88dfb`, `5d3f3d06-429f-48fe-99ed-12587daa1d2d`.
+Current staging deployment version: `408d4616-c66e-4e9e-a1a2-e1503a186eac`. Hosted acceptance/veto run IDs: `5c0d320e-04df-4b11-aba7-dba164f88dfb`, `5d3f3d06-429f-48fe-99ed-12587daa1d2d`.
+
+Backend privacy source cleanup is prepared in [draft PR #31](https://github.com/Hey-Salad/heysalad-payme/pull/31): 66 backend tests pass and the dev bundle passes. It remains unmerged/undeployed, with the same 126 baseline TypeScript diagnostics; historical-log and account/OTP-retention review is still required.

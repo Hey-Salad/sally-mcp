@@ -96,6 +96,7 @@ npm run dev
 npm run typecheck
 npm test
 npm run build
+npm run test:runtime # isolated workerd OAuth/D1/KV; no real mail or credentials
 npm run smoke
 npx @modelcontextprotocol/inspector --cli http://localhost:8787/mcp --transport http --method tools/list
 ```

@@ -18,3 +18,4 @@ jobs:
       - run: npm run secrets:check
       - run: npx playwright install --with-deps chromium
       - run: npm run test:ui
+      - run: npm run test:runtime

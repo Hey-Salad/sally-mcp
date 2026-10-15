@@ -16,7 +16,8 @@
     "format:check": "prettier --check src tests scripts plugin .github README.md docs submission/*.md package.json tsconfig.json wrangler.jsonc playwright.config.ts vitest.config.ts",
     "secrets:check": "python3 scripts/secret-scan.py",
     "check": "npm run typecheck && npm test && npm run build && npm run secrets:check",
-    "test:plugin": "node scripts/validate-plugin.mjs"
+    "test:plugin": "node scripts/validate-plugin.mjs",
+    "test:runtime": "node tests/runtime/oauth.mjs"
   },
   "dependencies": {
     "@cloudflare/workers-oauth-provider": "1.2.3",
@@ -33,6 +34,7 @@
     "@types/node": "26.6.5",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
+    "miniflare": "5.20261012.0-beta",
     "prettier": "3.9.10",
     "tsx": "4.23.15",
     "typescript": "7.0.2",

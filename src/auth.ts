@@ -1,3 +1,4 @@
+import fontFaces from "../ui/brand-fonts.css";
 import { AuthorizationError } from "@cloudflare/workers-oauth-provider";
 import { z } from "zod";
 import type { Env } from "./types";
@@ -11,22 +12,28 @@ const html = (body: string, headers = new Headers(), status = 200) => {
   headers.set("Referrer-Policy", "no-referrer");
   headers.set(
     "Content-Security-Policy",
-    "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
+    "default-src 'none'; style-src 'unsafe-inline'; font-src data:; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
   );
   return new Response(
-    `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Connect Sally</title><style>body{font:18px system-ui;background:#fff8f6;color:#1f1416;max-width:540px;margin:8vh auto;padding:24px}h1{color:#ed4c4c}input,button{font:inherit;padding:12px;margin:8px 0;display:block}button{background:#ed4c4c;color:#1f1416;border:0;border-radius:12px}small{display:block}</style><h1>Sally</h1><p>love your food</p>${body}<p>HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></p></html>`,
+    `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Connect Sally</title><style>${fontFaces}body{font:18px Figtree,system-ui,sans-serif;background:#fff8f6;color:#1f1416;max-width:540px;margin:8vh auto;padding:24px}h1{font-family:Grandstander,cursive;color:#ed4c4c}button[value=deny]{background:#faa09a}a{color:#a32128}input,button{font:inherit;padding:12px;margin:8px 0;display:block}button{background:#ed4c4c;color:#1f1416;border:0;border-radius:12px}small{display:block}</style><h1>Sally</h1><p>love your food</p>${body}<p>HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></p></html>`,
     { status, headers },
   );
 };
 export async function authorize(req: Request, env: Env) {
   const oauth = env.OAUTH_PROVIDER;
+  const scopeLabel = (scope: string) =>
+    ({
+      "sally:tools":
+        "Match groceries, explain choices, convert recipes, and prepare a shopping handoff.",
+      offline_access: "Keep this connection available for up to one day.",
+    })[scope] ?? scope;
   try {
     if (req.method === "GET") {
       const auth = await oauth.parseAuthRequest(req);
       const details = await oauth.describeConsent(auth);
       const consent = await oauth.beginConsent(auth);
       return html(
-        `<p>Connect to <strong>${esc(details.clientName)}</strong>. ${details.clientDomain ? `Publisher: ${esc(details.clientDomain)}.` : "The client name is self-declared."}</p><p>Access returns to <strong>${esc(details.redirectHost)}</strong>.</p>${details.redirectIsLoopback ? "<p>This grants access to an app on your computer. Continue only if you started this sign-in.</p>" : ""}<p>Permissions: ${esc(details.scope.join(", "))}. Sally can suggest groceries and prepare lists. You check out and pay.</p><form method="post" action="/authorize/send"><input type="hidden" name="handle" value="${esc(consent.handle)}"><label>Sally account email<input name="email" type="email" required autocomplete="email" maxlength="254"></label><button name="decision" value="approve">Email a sign-in code</button><button name="decision" value="deny">Deny</button></form>`,
+        `<p>Connect to <strong>${esc(details.clientName)}</strong>. ${details.clientDomain ? `Publisher: ${esc(details.clientDomain)}.` : "The client name is self-declared."}</p><p>Access returns to <strong>${esc(details.redirectHost)}</strong>.</p>${details.redirectIsLoopback ? "<p>This grants access to an app on your computer. Continue only if you started this sign-in.</p>" : ""}<p>This client can:</p><ul>${details.scope.map((scope) => `<li>${esc(scopeLabel(scope))}</li>`).join("")}</ul><p>You always check out and pay.</p><form method="post" action="/authorize/send"><input type="hidden" name="handle" value="${esc(consent.handle)}"><label>Sally account email<input name="email" type="email" required autocomplete="email" maxlength="254"></label><button name="decision" value="approve">Email a sign-in code</button><button name="decision" value="deny" formnovalidate>Deny</button></form>`,
         consent.headers,
       );
     }
