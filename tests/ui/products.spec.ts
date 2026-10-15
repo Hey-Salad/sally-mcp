@@ -108,3 +108,61 @@ test("host result messages render safely and foreign-frame messages are ignored"
   );
   await expect(page.getByText("ATTACK", { exact: true })).toHaveCount(0);
 });
+
+test("recipe view distinguishes confirmed and unknown serving counts", async ({
+  page,
+}) => {
+  await page.goto("http://127.0.0.1:8789");
+  await page.evaluate(() =>
+    window.postMessage(
+      {
+        jsonrpc: "2.0",
+        method: "ui/notifications/tool-result",
+        params: {
+          structuredContent: {
+            items: [{ name: "pasta", quantity: 400, unit: "g" }],
+            requested_servings: 4,
+            applied_servings: 4,
+            notes: [],
+          },
+        },
+      },
+      "*",
+    ),
+  );
+  await expect(
+    page.getByText("Shopping list for 4 servings", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText("400 g pasta", { exact: true })).toBeVisible();
+  await page.evaluate(() =>
+    window.postMessage(
+      {
+        jsonrpc: "2.0",
+        method: "ui/notifications/tool-result",
+        params: {
+          structuredContent: {
+            items: [{ name: "pasta", quantity: 200, unit: "g" }],
+            requested_servings: 4,
+            applied_servings: null,
+            notes: [
+              {
+                style: "amber",
+                text: "Sally has not confirmed the serving count. Confirm ingredient amounts before shopping.",
+              },
+            ],
+          },
+        },
+      },
+      "*",
+    ),
+  );
+  await expect(
+    page.getByText("Shopping list — confirm serving quantities", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Shopping list for 4 servings", { exact: true }),
+  ).toHaveCount(0);
+  await expect(page.getByText(/Check: Sally has not confirmed/)).toBeVisible();
+});

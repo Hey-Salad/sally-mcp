@@ -8,7 +8,7 @@ Source inspected: Hey-Salad/heysalad-payme, `dev/sally-api-dev-integration`, com
 
 - Per-candidate: `line`, `chosen` product card, `candidates`, `runId`, `itemIndex` → `verdict: confirm|veto`, `reason`, `confidence` (nullable), `model`, `fallback`.
 - The backend’s chain is Luna Decisions → Sol Responses → Luna Responses. MCP never calls OpenAI directly or carries an OpenAI key.
-- `POST /api/ai/generate-list` receives `{input,servings}` and returns `{items}`. Its source can prefer saved household size over requested servings. MCP explicitly returns an amber scaling note.
+- `POST /api/ai/generate-list` receives `{input,servings}` and returns `{items}`. Its source can prefer saved household size over requested servings. MCP returns `requested_servings` and `applied_servings` separately; older responses leave the latter null with an amber note, and a known mismatch is rejected.
 - `POST /api/auth/send-email-otp` and `/verify-email-otp` implement the account sign-in step. MCP OAuth is separate and uses resource-bound provider tokens.
 - `POST /api/auth/guest-session` supplies anonymous upstream access. This is a necessary backend guest account, not a user account impersonation. The initial guest credential is a Worker secret; daily renewal stores a short-lived guest credential in KV.
 - There is no catalogue search API: candidates come from retailer-page selectors or the user. The MCP server does not scrape retailer pages.
@@ -24,10 +24,12 @@ The current MCP layer runs a **TypeScript port** of the Python rules as a shadow
 
 Prepared owning-API change: [draft PR #29](https://github.com/Hey-Salad/heysalad-payme/pull/29), disabled by default and not deployed.
 
-Pending: obtain the trained checkpoint and matching preprocessing metadata; implement and verify the inference runtime; merge and validate the prepared dev-only rules + Nano shadow hook in the owning Sally API, then enable its flag and log agreement in its existing `ai_usage_logs`. The optional MCP shadow adapter alone does **not** complete that backend task. Do not promote shadow verdicts into decisions or claim benchmark figures establish live correctness.
+The owner supplied the local private int8 artifact and tokenizer/ID map on 15 October. Weights remain outside this public repository. Pending: implement and verify the inference runtime using the original Python feature module; merge and validate the prepared dev-only rules + Nano shadow hook in the owning Sally API, then enable its flag and log agreement in its existing `ai_usage_logs`. The optional MCP shadow adapter alone does **not** complete that backend task. Do not promote shadow verdicts into decisions or claim benchmark figures establish live correctness.
 
 ## Public-launch blockers
 
 Before a production rollout, review the owning Sally API’s existing OTP/debug logging and retention. The source inspected includes code/email debug logging in the OTP route and line/product observability in dev sense checks; the new MCP D1 does not retain those payloads. Reconcile those policies and code before publishing a privacy policy that describes the whole service.
 
 Prepared privacy cleanup: [draft PR #31](https://github.com/Hey-Salad/heysalad-payme/pull/31) removes OTP/recipient/provider-error payload logging and strips grocery text from sense-verdict persistence while preserving run attribution. Its 66 tests and dev bundle pass; it is not deployed and does not purge historical logs or resolve account/OTP retention.
+
+Prepared explicit-servings fix: [draft PR #32](https://github.com/Hey-Salad/heysalad-payme/pull/32) lets an explicit request override the saved household size and returns the applied count. Four regression scenarios and the full 64-test backend suite pass. It is not deployed; current live scaling remains unconfirmed.

@@ -72,6 +72,7 @@ const mf = new Miniflare(
         counts.recipe++;
         return Response.json({
           items: [{ name: "pasta", quantity: 200, unit: "g" }],
+          servings: 2,
         });
       }
       if (path === "/api/extension/ai/sense-check") {
@@ -182,6 +183,16 @@ try {
           .getByRole("heading", { name: "Sally", exact: true })
           .evaluate((e) => getComputedStyle(e).fontFamily)
       ).includes("Grandstander"),
+    );
+    const loadedFonts = await page.evaluate(async () => {
+      await document.fonts.ready;
+      return Array.from(document.fonts)
+        .filter((f) => f.status === "loaded")
+        .map((f) => f.family);
+    });
+    assert.ok(
+      loadedFonts.includes("Figtree") && loadedFonts.includes("Grandstander"),
+      "Both bundled brand fonts must load",
     );
     await page.screenshot({
       path: "submission/screenshots/consent-runtime.png",

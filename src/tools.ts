@@ -140,13 +140,22 @@ export async function executeTool(
         identity.upstreamToken,
       ),
     );
+    if (result.servings !== undefined && result.servings !== input.servings)
+      throw new ToolError(
+        "SERVINGS_MISMATCH",
+        `Sally returned quantities for ${result.servings} servings instead of ${input.servings}. Please try again.`,
+      );
     return {
-      ...result,
-      servings: input.servings,
+      items: result.items,
+      requested_servings: input.servings,
+      applied_servings: result.servings ?? null,
       notes: [
         {
           style: "amber",
-          text: "Review ingredient quantities: the Sally API may apply your saved household size. Confirm scaling before shopping.",
+          text:
+            result.servings === undefined
+              ? "Sally has not confirmed the serving count. Confirm ingredient amounts before shopping."
+              : "Review ingredient amounts, pack sizes and allergens before shopping.",
         },
       ],
     };

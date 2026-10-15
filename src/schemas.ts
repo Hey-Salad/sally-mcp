@@ -67,6 +67,7 @@ export const note = z.object({
   text: z.string().min(1).max(500),
 });
 export const recipeOutput = z.object({
+  servings: z.number().int().min(1).max(24).optional(),
   items: z
     .array(item.extend({ category: z.string().optional() }).strip())
     .min(1)
