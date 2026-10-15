@@ -18,6 +18,13 @@ assert.match(
   String("text" in widget.contents[0] ? widget.contents[0].text : ""),
   /Grandstander/,
 );
+const imageOrigins = (widget.contents[0]._meta as any).ui.csp.resourceDomains;
+for (const origin of [
+  "https://digitalcontent.api.tesco.com",
+  "https://ecom-su-static-prod.wtrecom.com",
+  "https://asdagroceries.scene7.com",
+])
+  assert.ok(imageOrigins.includes(origin));
 const result = await client.callTool({
   name: "match_products",
   arguments: { list: ["milk"], retailer: "ocado", candidates: [] },
