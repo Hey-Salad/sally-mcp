@@ -157,3 +157,14 @@ Nano hosting remains unprovisioned. System Python has no Modal CLI; no new
 compute, paid service or inference endpoint was deployed. Account-wide ChatGPT
 CSP enforcement, verified HeySalad Inc. publisher identity, general signup/reviewer
 access and production Sally API release remain separate launch gates.
+
+
+## Product-card heading cleanup — prepared 15 October 2026
+
+Removed the duplicate visible Sally by HeySalad® heading requested in Peter's
+13:49 screenshot. Official wordmark, tagline and document title remain. Five
+UI tests pass, including absence of the heading, visible logo/tagline and mobile
+overflow checks. Screenshots products-desktop.png and products-mobile.png are
+local illustrative fixtures. `npm run check` passed with 73 unit tests before
+the separate list-metering changes. Public deployment approval is pending;
+this entry does not claim the existing ChatGPT card has refreshed.
