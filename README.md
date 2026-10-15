@@ -125,3 +125,5 @@ Cherry Red `#ed4c4c`, Peach `#faa09a`, Cream `#fff8f6`, ink `#1f1416`. Grandstan
 - [Cloudflare OAuth provider](https://github.com/cloudflare/workers-oauth-provider)
 
 See `submission/` for listing text, privacy draft, review instructions and screenshots. Peter submits. There is no checkout, payment, retailer credential collection or directory-submission code.
+
+Private Sally-Nano inference is documented in [inference/README.md](inference/README.md). It loads a private mounted artifact, reuses the original Python features, and stays in shadow mode. Local checkpoint tests pass; inference hosting is still pending.
