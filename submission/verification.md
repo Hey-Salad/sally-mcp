@@ -147,7 +147,10 @@ extends public privacy for ChatGPT/Codex/Vercel and intended Airwallex processin
 and hardens existing webhook policy. Node 24 production build, TypeScript,
 targeted ESLint and 12 tests pass. Local production HTTP 200 and screenshot
 checked. PR #105's existing historical-credential security gate remains; neither
-website PR was merged or deployed. Current public privacy URL still needs
+website PR was merged or deployed to production. An automatic Vercel preview
+for PR #106 completed at https://heysalad-ai-platform-7iw4suov8-hey-salad-inc.vercel.app;
+anonymous privacy access returns HTTP 302 to Vercel SSO. Preview protection
+was not disabled. Current public privacy URL still needs
 anonymous hosted verification after an approved release.
 
 Nano hosting remains unprovisioned. System Python has no Modal CLI; no new
