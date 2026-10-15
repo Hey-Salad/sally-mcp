@@ -13,3 +13,11 @@ Before applying a domain change:
 5. Only after validation, update the public plugin/config and submission links.
 
 No public URL should be claimed live until those checks pass. The current tested endpoint remains `https://sally-mcp-staging.heysalad-o.workers.dev/mcp`.
+
+## Preferred heysalad.ai option (15 October)
+
+Peter subsequently asked to use the existing heysalad.ai domain, whose website is on Vercel. Recommended endpoint: `https://mcp.heysalad.ai/mcp`, with that new subdomain attached directly to the Cloudflare Worker. This keeps the website on Vercel and gives OAuth discovery/authorization a dedicated origin. This is a proposed address, not deployed or DNS-configured.
+
+An apex `https://heysalad.ai/mcp` proxy is also possible, but it needs deliberate discovery handling in the owning Next.js project. Vercel external rewrites proxy requests, while its current routing documentation reserves `/.well-known` from rewrites/redirects. A single `/mcp` rewrite would leave OAuth metadata and cookie-origin behavior unresolved. If the apex path is preferred, prepare actual discovery route handlers and a fixed canonical issuer; test streaming, POST token requests, cookies, redirects, IP quota behavior through Vercel, and protected-resource audience binding before updating clients. Do not trust arbitrary forwarded host headers.
+
+Source: [Vercel rewrites](https://vercel.com/docs/routing/rewrites), fetched 15 October 2026. No website source, production DNS, or Vercel deployment was changed.

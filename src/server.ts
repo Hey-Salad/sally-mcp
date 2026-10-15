@@ -38,7 +38,7 @@ export async function handleMcp(req: Request, env: Env, identity?: Identity) {
     {
       name: "Sally",
       title: DISPLAY_NAME,
-      version: "0.1.1",
+      version: "0.1.2",
       websiteUrl: WEBSITE,
       description:
         "Sally by HeySalad® — HeySalad Inc.’s AI grocery assistant. love your food",
@@ -57,12 +57,12 @@ export async function handleMcp(req: Request, env: Env, identity?: Identity) {
   registerAppResource(
     server,
     "sally-products",
-    "ui://sally/products.html",
+    "ui://sally/products-v2.html",
     {},
     async () => ({
       contents: [
         {
-          uri: "ui://sally/products.html",
+          uri: "ui://sally/products-v2.html",
           mimeType: RESOURCE_MIME_TYPE,
           text: widget,
           _meta: {
@@ -111,8 +111,8 @@ export async function handleMcp(req: Request, env: Env, identity?: Identity) {
         },
         _meta: {
           securitySchemes,
-          ui: { resourceUri: "ui://sally/products.html" },
-          "openai/outputTemplate": "ui://sally/products.html",
+          ui: { resourceUri: "ui://sally/products-v2.html" },
+          "openai/outputTemplate": "ui://sally/products-v2.html",
         },
       },
       async (args: unknown): Promise<CallToolResult> => {

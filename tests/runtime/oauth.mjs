@@ -419,8 +419,105 @@ try {
     4,
     "Current usage must be retained",
   );
+  // Use real browser cookies for two overlapping sign-in windows. The manual
+  // request jar above cannot detect browser cookie rejection or replacement.
+  const browserRegistration = await request("/oauth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      client_name: "Synthetic browser client",
+      redirect_uris: ["https://chatgpt.example/callback"],
+      token_endpoint_auth_method: "none",
+      grant_types: ["authorization_code"],
+      response_types: ["code"],
+    }),
+  });
+  assert.equal(browserRegistration.status, 201);
+  const browserClient = await browserRegistration.json();
+  const browserAuthorize = new URL(authorize);
+  browserAuthorize.searchParams.set("client_id", browserClient.client_id);
+  browserAuthorize.searchParams.set(
+    "redirect_uri",
+    "https://chatgpt.example/callback",
+  );
+  const authBrowser = await chromium.launch();
+  try {
+    const context = await authBrowser.newContext();
+    await context.route(origin + "/**", async (route) => {
+      const incoming = route.request();
+      const result = await mf.dispatchFetch(incoming.url(), {
+        method: incoming.method(),
+        headers: await incoming.allHeaders(),
+        body: incoming.postDataBuffer() || undefined,
+        redirect: "manual",
+      });
+      const headers = Object.fromEntries(result.headers);
+      delete headers["set-cookie"];
+      delete headers["content-length"];
+      const setCookies = result.headers.getSetCookie();
+      if (setCookies.length) headers["set-cookie"] = setCookies.join("\n");
+      await route.fulfill({
+        status: result.status,
+        headers,
+        body: await result.text(),
+      });
+    });
+    await context.route("https://chatgpt.example/callback**", (route) =>
+      route.fulfill({ contentType: "text/html", body: "<h1>Connected</h1>" }),
+    );
+    const first = await context.newPage(),
+      second = await context.newPage();
+    for (const page of [first, second]) {
+      await page.goto(browserAuthorize.href);
+      await page
+        .getByRole("textbox", { name: "Sally account email", exact: true })
+        .fill(account.email);
+      await page
+        .getByRole("button", { name: "Email a sign-in code", exact: true })
+        .click();
+      await page
+        .getByRole("textbox", { name: "Email code", exact: true })
+        .waitFor();
+    }
+    for (const page of [first, second]) {
+      await page
+        .getByRole("textbox", { name: "Email code", exact: true })
+        .fill("424242");
+      // The callback is a synthetic external client, so verify the browser's
+      // navigation request and redeem its code rather than rendering that host.
+      const navigation = page.waitForRequest(
+        (r) => r.url().startsWith("https://chatgpt.example/callback"),
+        { timeout: 3000 },
+      );
+      await page
+        .getByRole("button", { name: "Connect Sally", exact: true })
+        .click({ noWaitAfter: true });
+      const callback = new URL((await navigation).url());
+      assert.equal(callback.searchParams.get("state"), "isolated-state");
+      assert.equal(callback.searchParams.get("iss"), origin);
+      assert.ok(callback.searchParams.get("code"));
+      const exchanged = await request("/oauth/token", {
+        method: "POST",
+        body: new URLSearchParams({
+          client_id: browserClient.client_id,
+          grant_type: "authorization_code",
+          code: callback.searchParams.get("code"),
+          redirect_uri: "https://chatgpt.example/callback",
+          code_verifier: verifier,
+          resource: origin + "/mcp",
+        }),
+      });
+      assert.equal(
+        exchanged.status,
+        200,
+        "Each overlapping browser sign-in must redeem its own code",
+      );
+    }
+  } finally {
+    await authBrowser.close();
+  }
   console.log(
-    "PASS: isolated workerd OAuth code + PKCE, protected tools, refresh rotation, revocation, pseudonymous D1 usage and retention during upstream outage.",
+    "PASS: isolated workerd OAuth code + PKCE, protected tools, refresh rotation, revocation, pseudonymous D1 usage, retention during upstream outage, and two overlapping browser sign-ins with callback navigation + PKCE redemption.",
   );
 } finally {
   await mf.dispose();

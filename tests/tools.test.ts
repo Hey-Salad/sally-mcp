@@ -284,6 +284,20 @@ describe("recipe_to_list", () => {
   });
 });
 describe("basket_link", () => {
+  it("preserves free-text quantities instead of prefixing a second quantity", async () => {
+    const result = await executeTool(
+      "basket_link",
+      { list: ["200g pasta", "1 onion", "milk"], retailer: "ocado" },
+      env,
+      identity,
+    );
+    expect(result).toMatchObject({
+      extension_text: "200g pasta\n1 onion\nmilk",
+      checkout: false,
+      payment: false,
+    });
+    expect(fetcher).not.toHaveBeenCalled();
+  });
   it.each(["ocado", "waitrose", "tesco", "asda"])(
     "prepares %s handoff without network, checkout or payment",
     async (retailer) => {

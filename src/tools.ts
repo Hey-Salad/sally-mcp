@@ -167,7 +167,11 @@ export async function executeTool(
     url: stores[input.retailer],
     list: items,
     extension_text: items
-      .map((i) => `${i.quantity}${i.unit ? ` ${i.unit}` : ""} ${i.name}`)
+      .map((i, index) =>
+        typeof input.list[index] === "string"
+          ? input.list[index]
+          : `${i.quantity}${i.unit ? ` ${i.unit}` : ""} ${i.name}`,
+      )
       .join("\n"),
     instructions: [
       "Open the retailer link in Chrome.",

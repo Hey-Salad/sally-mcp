@@ -19,8 +19,10 @@ assert.deepEqual(tools.tools.map((t) => t.name).sort(), [
   "recipe_to_list",
 ]);
 const resources = await client.listResources();
-assert.equal(resources.resources[0].uri, "ui://sally/products.html");
-const widget = await client.readResource({ uri: "ui://sally/products.html" });
+assert.equal(resources.resources[0].uri, "ui://sally/products-v2.html");
+const widget = await client.readResource({
+  uri: "ui://sally/products-v2.html",
+});
 assert.match(
   String("text" in widget.contents[0] ? widget.contents[0].text : ""),
   /Grandstander/,
