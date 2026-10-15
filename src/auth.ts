@@ -10,7 +10,7 @@ const esc = (s: string) =>
 const html = (body: string, headers = new Headers(), status = 200) => {
   headers.set("Content-Type", "text/html; charset=utf-8");
   headers.set("Cache-Control", "no-store");
-  headers.set("Referrer-Policy", "no-referrer");
+  headers.set("Referrer-Policy", "same-origin");
   headers.set(
     "Content-Security-Policy",
     "default-src 'none'; style-src 'unsafe-inline'; font-src data:; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",

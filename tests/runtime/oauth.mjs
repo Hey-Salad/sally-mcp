@@ -155,8 +155,10 @@ try {
       viewport: { width: 900, height: 760 },
     });
     let deniedWithoutEmail = false;
+    let consentPostOrigin;
     await page.route(origin + "/**", async (route) => {
       if (route.request().method() === "POST") {
+        consentPostOrigin = route.request().headers()["origin"];
         deniedWithoutEmail =
           new URLSearchParams(route.request().postData()).get("decision") ===
           "deny";
@@ -165,7 +167,10 @@ try {
           body: "<h1>Access denied</h1>",
         });
       } else
-        await route.fulfill({ contentType: "text/html", body: consentHtml });
+        await route.fulfill({
+          headers: Object.fromEntries(consent.headers),
+          body: consentHtml,
+        });
     });
     await page.goto(origin + "/authorize");
     assert.equal(
@@ -204,6 +209,11 @@ try {
     );
     await page.getByRole("button", { name: "Deny", exact: true }).click();
     await submitted;
+    assert.equal(
+      consentPostOrigin,
+      origin,
+      "Consent headers must preserve same-origin form POST Origin for CSRF validation",
+    );
     assert.equal(
       deniedWithoutEmail,
       true,
