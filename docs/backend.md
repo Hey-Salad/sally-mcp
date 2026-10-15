@@ -44,3 +44,15 @@ PR #29 dev-only shadow hooks. It is not deployed. Current metering is per backen
 AI operation and must be reconciled with the submitted-list boundary before
 activation. Sally price/customer mappings and paid upgrade flow remain unverified.
 MCP preserves quota/access errors; rate limiting alone does not enforce billing.
+
+## Submitted-list metering decision — 15 October 2026
+
+Peter confirmed one submitted shopping list counts as one request. PR #38 now
+admits the complete list through `/api/billing/shopping-requests` and returns
+an account/list-bound `shopping_request_id` for candidate checks and final sweeps.
+Atomic D1 insertion and charging prevent double counts on concurrent retries.
+MCP's `SALLY_LIST_BILLING=1` enables its client; currently unset. The shared API
+guard must not be activated before the extension adopts the same protocol.
+Recipe conversion and manual basket handoff do not submit a shop. Standalone
+explanations submit one item; explanations with a prior request reference reuse
+the original allowance. Batches retain the full list and `submission_id`.

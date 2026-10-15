@@ -134,3 +134,19 @@ Cherry Red `#ed4c4c`, Peach `#faa09a`, Cream `#fff8f6`, ink `#1f1416`. Grandstan
 See `submission/` for listing text, privacy draft, review instructions and screenshots. Peter submits. There is no checkout, payment, retailer credential collection or directory-submission code.
 
 Private Sally-Nano inference is documented in [inference/README.md](inference/README.md). It loads a private mounted artifact, reuses the original Python features, and stays in shadow mode. Local checkpoint tests pass; inference hosting is still pending.
+
+## Monthly shopping-list allowance — prepared, not enabled
+
+Peter confirmed Free 10 / Pro 100 / Max unlimited submitted lists per month,
+with Airwallex for paid plans. One list counts once, including candidate
+checks, candidate batches, explanations within the list and a final sweep.
+When returned, reuse `submission_id` with the same full list for retries or
+candidate batches; pass `shopping_request_id` to explain a matched item. A
+newly submitted list uses a new ID. Recipe preparation and manual basket links
+do not consume a submitted-list allowance.
+
+The client is behind `SALLY_LIST_BILLING=1`, currently unset. Activation depends
+on the owning backend's two migrations, compatible extension client, verified
+Sally-specific Airwallex customer/price mappings and explicit live rollout
+approval. See [backend preparation](docs/backend.md) and
+[backend PR #38](https://github.com/Hey-Salad/heysalad-payme/pull/38).

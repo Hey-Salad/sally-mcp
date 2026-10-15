@@ -158,7 +158,6 @@ compute, paid service or inference endpoint was deployed. Account-wide ChatGPT
 CSP enforcement, verified HeySalad Inc. publisher identity, general signup/reviewer
 access and production Sally API release remain separate launch gates.
 
-
 ## Product-card heading cleanup — prepared 15 October 2026
 
 Removed the duplicate visible Sally by HeySalad® heading requested in Peter's
@@ -168,3 +167,33 @@ overflow checks. Screenshots products-desktop.png and products-mobile.png are
 local illustrative fixtures. `npm run check` passed with 73 unit tests before
 the separate list-metering changes. Public deployment approval is pending;
 this entry does not claim the existing ChatGPT card has refreshed.
+
+## Submitted-list billing revision — prepared 15 October 2026
+
+Peter confirmed one submitted list counts once. This supersedes the earlier
+per-operation draft and its open-unit gate. Backend PR #38 now has 109 passing
+tests: twenty items count once; 20 concurrent retries count once at the last
+Free slot; a new submission counts again; list/account mismatch, expiry and
+request safety bounds fail before AI. A real authenticated HTTP submission
+and retry also pass. Both migrations are rehearsed against real isolated D1.
+Backend retains its 118 baseline type diagnostics; dry dev bundle passes.
+
+MCP 79 tests, types, bundle and secret scan pass. New tests cover one admission
+for multiple candidates, retry IDs, quota rejection before checks, explanation
+reference reuse, and recipe conversion without a shopping-list charge.
+`SALLY_LIST_BILLING` remains unset; this code is not enabled live. Five UI tests
+pass separately. The Chrome extension must implement the list admission/header
+contract before the shared API guard is enabled. Sally Airwallex prices, trusted
+customer linkage and signed sandbox delivery remain unverified. No live
+migration, billing activation or charge occurred.
+
+Product-card cleanup deployed to legacy staging only from isolated UI commit
+0ca13c4, version 08615069-303d-49b2-ba1b-fc4ed2f8da3b. Hosted smoke/Inspector
+and actual widget-resource assertions pass: duplicate heading absent, official
+logo/tagline retained. Public-domain publication approval is still pending.
+List-metering code was excluded from that staging release.
+
+Updated MCP source passes isolated workerd OAuth runtime tests with real PKCE
+redemption, refresh rotation/revocation, overlapping browser sign-ins and
+retention checks. Portable plugin package 0.1.2 rebuilt with the updated retry
+instructions; private workspace package is prepared separately, not uploaded.

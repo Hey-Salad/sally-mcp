@@ -115,8 +115,12 @@ test("cards render product, price, size, confidence and amber note without overf
   await expect(
     page.getByRole("heading", { name: "Whole milk", exact: true }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Sally by HeySalad®", exact: true })).toHaveCount(0);
-  await expect(page.getByRole("img", { name: "HeySalad logo", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Sally by HeySalad®", exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("img", { name: "HeySalad logo", exact: true }),
+  ).toBeVisible();
   await expect(page.getByText("love your food", { exact: true })).toBeVisible();
   await expect(page.getByText("£1.80", { exact: true })).toBeVisible();
   await expect(page.getByText("96% confidence", { exact: true })).toBeVisible();

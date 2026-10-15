@@ -41,6 +41,13 @@ export const toolInputs = {
     .object({
       list,
       retailer,
+      submission_id: z
+        .string()
+        .uuid()
+        .optional()
+        .describe(
+          "Reuse only when retrying the exact same submitted shopping list; omit for a new submission.",
+        ),
       candidates: z
         .array(
           z
@@ -53,7 +60,26 @@ export const toolInputs = {
         .max(10),
     })
     .strict(),
-  explain_match: z.object({ item, product }).strict(),
+  explain_match: z
+    .object({
+      item,
+      product,
+      shopping_request_id: z
+        .string()
+        .uuid()
+        .optional()
+        .describe(
+          "Reuse the reference returned by match_products to explain an item in that submitted list without another allowance.",
+        ),
+      submission_id: z
+        .string()
+        .uuid()
+        .optional()
+        .describe(
+          "Reuse only for an exact retry of this single-item submission.",
+        ),
+    })
+    .strict(),
   recipe_to_list: z
     .object({
       recipe_text: z.string().trim().min(1).max(16000),

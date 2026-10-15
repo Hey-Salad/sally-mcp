@@ -14,9 +14,9 @@ import widget from "../ui/products.html";
 import { DISPLAY_NAME, WELCOME, WEBSITE } from "./brand";
 const descriptions: Record<ToolName, string> = {
   match_products:
-    "Compare grocery list items with candidate products read from the selected retailer page. Supply candidates with observed price, pack size, URL and optional image. Sally checks candidates using its API. Never invent candidates, prices, availability, or confidence. No retailer search, basket changes, checkout or payment. Available anonymously with a small quota.",
+    "Compare grocery list items with candidate products read from the selected retailer page. Supply candidates with observed price, pack size, URL and optional image. Sally checks candidates using its API. Never invent candidates, prices, availability, or confidence. No retailer search, basket changes, checkout or payment. Available anonymously with a small quota. When billing is enabled, one submitted list consumes one monthly allowance. Reuse submission_id and keep the full list unchanged for candidate batches or exact retries.",
   explain_match:
-    "Explain whether a supplied product fits a grocery item. Uses the Sally API sense check and reports rules/shadow-model status truthfully. Use for doubts about variants, quantity or pack size. Requires Sally sign-in. No basket changes or payment.",
+    "Explain whether a supplied product fits a grocery item. Uses the Sally API sense check and reports rules/shadow-model status truthfully. Use for doubts about variants, quantity or pack size. Requires Sally sign-in. Pass shopping_request_id from matching to reuse that submitted list; otherwise this submits a one-item list when billing is enabled. No basket changes or payment.",
   recipe_to_list:
     "Convert recipe text into a normalised ingredient shopping list. Specify desired servings; review amber scaling notes. Requires Sally sign-in. Does not order groceries.",
   basket_link:
