@@ -1,4 +1,5 @@
 import fontFaces from "../ui/brand-fonts.css";
+import authStyles from "../ui/auth.css";
 import { AuthorizationError } from "@cloudflare/workers-oauth-provider";
 import { z } from "zod";
 import type { Env } from "./types";
@@ -21,7 +22,7 @@ const html = (
     `default-src 'none'; style-src 'unsafe-inline'; font-src data:; form-action 'self'${redirectUri ? " " + new URL(redirectUri).origin : ""}; frame-ancestors 'none'; base-uri 'none'`,
   );
   return new Response(
-    `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Connect ${DISPLAY_NAME}</title><style>${fontFaces}body{font:18px Figtree,system-ui,sans-serif;background:#fff8f6;color:#1f1416;max-width:540px;margin:8vh auto;padding:24px}h1{font-family:Grandstander,cursive;color:#ed4c4c}.brand-mark{width:260px;max-width:100%}.brand-mark svg{width:100%;height:auto;display:block}button[value=deny]{background:#faa09a}a{color:#a32128}input,button{font:inherit;padding:12px;margin:8px 0;display:block}button{background:#ed4c4c;color:#1f1416;border:0;border-radius:12px}small{display:block}</style><div class="brand-mark" role="img" aria-label="HeySalad logo">${HEYSALAD_WORDMARK_SVG}</div><h1>${DISPLAY_NAME}</h1><p>love your food</p>${body}<p>HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></p></html>`,
+    `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Connect ${DISPLAY_NAME}</title><style>${fontFaces}${authStyles}</style></head><body><main class="auth-card"><header class="auth-header"><div class="brand-mark" role="img" aria-label="HeySalad logo">${HEYSALAD_WORDMARK_SVG}</div><h1>${DISPLAY_NAME}</h1><p class="tagline">love your food</p></header><div class="auth-content">${body}</div><footer class="company-footer">HeySalad Inc. · <a href="https://heysalad.ai/sally/privacy">Privacy</a></footer></main></body></html>`,
     { status, headers },
   );
 };
@@ -40,7 +41,7 @@ export async function authorize(req: Request, env: Env) {
       const details = await oauth.describeConsent(auth);
       const consent = await oauth.beginConsent(auth);
       return html(
-        `<p>Connect to <strong>${esc(details.clientName)}</strong>. ${details.clientDomain ? `Publisher: ${esc(details.clientDomain)}.` : "The client name is self-declared."}</p><p>Access returns to <strong>${esc(details.redirectHost)}</strong>.</p>${details.redirectIsLoopback ? "<p>This grants access to an app on your computer. Continue only if you started this sign-in.</p>" : ""}<p>This client can:</p><ul>${details.scope.map((scope) => `<li>${esc(scopeLabel(scope))}</li>`).join("")}</ul><p>You always check out and pay.</p><form method="post" action="/authorize/send"><input type="hidden" name="handle" value="${esc(consent.handle)}"><label>Sally account email<input name="email" type="email" required autocomplete="email" maxlength="254"></label><button name="decision" value="approve">Email a sign-in code</button><button name="decision" value="deny" formnovalidate>Deny</button></form>`,
+        `<section class="consent-details" aria-label="Connection details"><p>Connect to <strong>${esc(details.clientName)}</strong>. ${details.clientDomain ? `Publisher: ${esc(details.clientDomain)}.` : "The client name is self-declared."}</p><p>Access returns to <strong>${esc(details.redirectHost)}</strong>.</p>${details.redirectIsLoopback ? "<p>This grants access to an app on your computer. Continue only if you started this sign-in.</p>" : ""}<p>This client can:</p><ul>${details.scope.map((scope) => `<li>${esc(scopeLabel(scope))}</li>`).join("")}</ul><p class="safety-note">You always check out and pay.</p></section><form method="post" action="/authorize/send"><input type="hidden" name="handle" value="${esc(consent.handle)}"><label>Email Address<input name="email" type="email" aria-label="Sally account email" placeholder="you@example.com" required autocomplete="email" maxlength="254" aria-describedby="email-hint"></label><small class="hint" id="email-hint">We’ll send you a 6-digit sign-in code.</small><button name="decision" value="approve">Email a sign-in code</button><button name="decision" value="deny" formnovalidate>Deny</button></form>`,
         consent.headers,
         200,
         auth.redirectUri,
@@ -103,7 +104,7 @@ export async function authorize(req: Request, env: Env) {
         `__Host-sally-login-${nonce}=${browser}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=600`,
       );
       return html(
-        `<p>Enter the code sent to your Sally email. Approving connects this client to Sally.</p><form method="post" action="/authorize/complete"><input type="hidden" name="handle" value="${nonce}"><label>Email code<input name="code" inputmode="numeric" pattern="[0-9]{6}" required autocomplete="one-time-code"></label><button>Connect Sally</button></form>`,
+        `<p>Enter the code sent to your Sally email. Approving connects this client to Sally.</p><form method="post" action="/authorize/complete"><input type="hidden" name="handle" value="${nonce}"><label>Email code<input name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required autocomplete="one-time-code" aria-describedby="code-hint"></label><small class="hint" id="code-hint">Your code expires after 10 minutes.</small><button>Connect Sally</button></form>`,
         approved.headers,
         200,
         approved.request.redirectUri,

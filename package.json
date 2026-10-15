@@ -13,7 +13,7 @@
     "inspector": "mcp-inspector --cli",
     "deploy:staging": "wrangler deploy --env staging",
     "test:ui": "playwright test",
-    "format:check": "prettier --check src tests scripts plugin .github README.md docs submission/*.md package.json tsconfig.json wrangler.jsonc playwright.config.ts vitest.config.ts vercel-proxy/app vercel-proxy/lib vercel-proxy/test vercel-proxy/package.json vercel-proxy/next.config.mjs",
+    "format:check": "prettier --check src tests scripts plugin .github README.md docs submission/*.md package.json tsconfig.json wrangler.jsonc playwright.config.ts vitest.config.ts ui/auth.css vercel-proxy/app vercel-proxy/lib vercel-proxy/test vercel-proxy/package.json vercel-proxy/next.config.mjs",
     "secrets:check": "python3 scripts/secret-scan.py",
     "check": "npm run typecheck && npm test && npm run build && npm run secrets:check",
     "test:plugin": "node scripts/validate-plugin.mjs",

@@ -2,7 +2,7 @@
 // Every upstream request is intercepted. No real email, account or credential is used.
 import assert from "node:assert/strict";
 import { chromium } from "@playwright/test";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { Miniflare, convertV4MiniflareOptions } from "miniflare";
 import { proxyRequest } from "../../vercel-proxy/lib/proxy.mjs";
@@ -492,6 +492,38 @@ try {
       second = await context.newPage();
     for (const page of [first, second]) {
       await page.goto(browserAuthorize.href);
+      if (page === first) {
+        mkdirSync(".wrangler/auth-style-preview", { recursive: true });
+        for (const viewport of [
+          { width: 1280, height: 1000 },
+          { width: 390, height: 844 },
+        ]) {
+          await page.setViewportSize(viewport);
+          await page.evaluate(() => document.fonts.ready);
+          assert.equal(
+            await page.evaluate(
+              () => document.documentElement.scrollWidth <= innerWidth,
+            ),
+            true,
+            "Consent must fit both desktop and mobile without horizontal scrolling",
+          );
+          const emailBox = await page
+            .getByRole("textbox", { name: "Sally account email", exact: true })
+            .boundingBox();
+          const buttonBox = await page
+            .getByRole("button", { name: "Email a sign-in code", exact: true })
+            .boundingBox();
+          assert.ok(
+            emailBox &&
+              buttonBox &&
+              Math.abs(emailBox.width - buttonBox.width) < 1,
+          );
+          await page.screenshot({
+            path: `.wrangler/auth-style-preview/consent-${viewport.width}.png`,
+            fullPage: true,
+          });
+        }
+      }
       await page
         .getByRole("textbox", { name: "Sally account email", exact: true })
         .fill(account.email);
@@ -501,6 +533,11 @@ try {
       await page
         .getByRole("textbox", { name: "Email code", exact: true })
         .waitFor();
+      if (page === first)
+        await page.screenshot({
+          path: ".wrangler/auth-style-preview/consent-code-mobile.png",
+          fullPage: true,
+        });
     }
     for (const page of [first, second]) {
       await page
