@@ -27,8 +27,10 @@ Date: 15 October 2026, Europe/London. This is a staging delivery with explicit r
 | Submission                                                                        | Listing, privacy draft, test-access instructions, plugin package and labeled UI screenshots                                                               | Prepared for review, not ready to submit until blockers clear                                                           |
 | Production rollout                                                                | `sally-api` and `shopping-agent` were not deployed                                                                                                        | Pending explicit approval/release work                                                                                  |
 
-Staging MCP: https://sally-mcp-staging.heysalad-o.workers.dev/mcp  
-Health: https://sally-mcp-staging.heysalad-o.workers.dev/health  
+Staging MCP: https://sally-mcp-staging.heysalad-o.workers.dev/mcp
+
+Health: https://sally-mcp-staging.heysalad-o.workers.dev/health
+
 Private ChatGPT app: https://chatgpt.com/plugins/plugin_asdk_app_6ad0179a237881919b08328b5ccdc5a8
 
 A Workers-specific failure found during live matching was fixed: Workers rejects `redirect: "error"`; upstream requests now use `manual` and reject redirects without forwarding credentials. A regression test covers it. Routine discovery had passed before this live-call check caught the runtime problem.

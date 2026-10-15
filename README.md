@@ -2,7 +2,8 @@
 
 HeySalad Inc.’s AI grocery assistant for ChatGPT and Codex. AGPL-3.0-only.
 
-**Staging:** https://sally-mcp-staging.heysalad-o.workers.dev/mcp  
+**Staging:** https://sally-mcp-staging.heysalad-o.workers.dev/mcp
+
 **Health:** https://sally-mcp-staging.heysalad-o.workers.dev/health
 
 Sally checks grocery candidates, explains choices, converts recipes to shopping lists and prepares a Sally Chrome extension handoff. **You always check out and pay.**

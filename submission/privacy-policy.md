@@ -1,6 +1,7 @@
 # Sally privacy policy — draft for HeySalad Inc. approval
 
-Proposed publication URL: https://heysalad.ai/sally/privacy  
+Proposed publication URL: https://heysalad.ai/sally/privacy
+
 Prepared: 15 October 2026. Not yet the published policy. The upstream logging/retention items below must be resolved before publishing.
 
 Sally is operated by HeySalad Inc. Contact peter@heysalad.ai with privacy, support, access or deletion requests.
