@@ -20,3 +20,9 @@ resource checks pass. Public mcp.heysalad.ai publication is awaiting approval.
 Actual public ChatGPT host evidence before this cleanup exists in
 `public-chatgpt-card-fixture.png`; earlier notes that no host proof was available
 are historical and superseded by submission/verification.md.
+
+Public card cleanup is now approved and deployed (superseding the pending note
+above). `public-card-cleanup-render-fixture.png` renders the actual widget
+resource fetched from mcp.heysalad.ai in an isolated browser, using synthetic
+milk/no-candidate data. The duplicate heading is absent. It is not a ChatGPT
+conversation screenshot. Public version/evidence: submission/verification.md.
